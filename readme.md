@@ -18,18 +18,26 @@ To test concurrent reads in rust
 cargo run --release
 ```
 
-Things I did and how I came up with this approach:
 
-    - Initially I implemented bloom filter and was using Rust `bitvec` library for initial testing
 
-    - I started testing whether there was a big difference in the ratio between 0s and 1s,
-    - Since we will storing 10url, the eventual ratio of 0s and 1s will be the same
 
-    - Then, I started working on the simplest approach, storing bits as string in file,
-    - Since linux has limit of reading at lest a byte for files
-    - Quickly I realized it will be 8x storage inefficient, for 10b urls, we will approach ~ 500GB
+Things I did and how I came up with this approach
 
-    - I learned from bitvec on an approach where we can do bit manipulation to read/write individual bits on `Vec<u8>`, so I started implemented it for files
+- Initially I implemented bloom filter and was using Rust `bitvec` library for initial testing
+
+
+- I started testing whether there was a big difference in the ratio between 0s and 1s,
+- Since we will be storing 10b urls, the eventual ratio of 0s and 1s will be the same
+
+
+- Then, I started working on the simplest approach, storing bits as string in file,
+- Since linux has limit of reading at least a byte for files
+- Quickly I realized it will be 8x storage inefficient, for 10b urls, we will approach ~ 500GB
+
+
+- I learned from bitvec on an approach where we can do bit manipulation to read/write individual bits on `Vec<u8>`, so I started implemented it for files
+
+---
 
 Some crude calculations :)
 
@@ -43,6 +51,8 @@ Some crude calculations :)
 
   - Store the indices of zero in hashmap (in memory), this will help in ruling out urls that are not added faster
   - Concurrent read/write
+
+---
 
 Improvements for order to magnitude speedups:
 
