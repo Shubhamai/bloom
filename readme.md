@@ -23,7 +23,7 @@ cargo run --release
 
 Things I did and how I came up with this approach
 
-- Initially I implemented bloom filter and was using Rust `bitvec` library for initial testing
+- Initially I implemented bloom filter and was using Rust `bitvec` library as for storing bits efficiently (in memory)
 
 
 - I started testing whether there was a big difference in the ratio between 0s and 1s,
